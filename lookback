@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Note Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f4f4f4;
+    }
+    .note-box {
+      background: white;
+      padding: 20px;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .note {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    .date {
+      color: gray;
+      font-size: 0.9em;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border: none;
+      background: #007acc;
+      color: white;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="note-box">
+    <div class="note" id="note"></div>
+    <div class="date" id="date"></div>
+    <button onclick="showRandomNote()">New Note</button>
+  </div>
+
+  <script>
+    const notes = [
+      { note: "DECEMBER ~ Manhood is taught & imitated, more than it is reasoned.", date: "29.12.24" },
+      { note: "The faith that makes you move from a good situation to God's will is the real kind.", date: "16.12.24" },
+      { note: "How to relate to favor > \"Who, being in very nature God, did not consider equality with God...\"", date: "13.12.24" },
+      { note: "Keep walking in your faith, it will lead you to your people.", date: "10.12.24" },
+      { note: "One of the most dangerous things you can do is submit yourself to weak leadership.", date: "03.12.24" }
+    ];
+
+    function showRandomNote() {
+      const random = notes[Math.floor(Math.random() * notes.length)];
+      document.getElementById("note").textContent = random.note;
+      document.getElementById("date").textContent = random.date;
+    }
+
+    // Show a note on initial load
+    showRandomNote();
+  </script>
+</body>
+</html>
