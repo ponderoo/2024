@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Note Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f4f4f4;
+    }
+    .note-box {
+      background: white;
+      padding: 20px;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .note {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    .date {
+      color: gray;
+      font-size: 0.9em;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border: none;
+      background: #007acc;
+      color: white;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="note-box">
+    <div class="note" id="note"></div>
+    <div class="date" id="date"></div>
+    <button onclick="showRandomNote()">New Note</button>
+  </div>
+
+  <script>
+    const notes = [
+      { note: "DECEMBER ~ Manhood is taught & imitated, more afraid of God’s love than his wrath, all progress depends on the unreasonable man, the faith that makes you move from a good situation, beware being well adjusted to a profoundly sick society", date: "29.12.24" },
+      { note: "The faith that makes you move from a good situation, believing you’re being called to a better one (even if you can’t see it)<<", date: "16.12.24" },
+      { note: "How to relate to favor > “Who, being in very nature God, did not consider equality with God something to be used to his own advantage; rather, he made himself nothing by taking the very nature of a servant, being made in human likeness. And being found in appearance as a man, he humbled himself by becoming obedient to death— even death on a cross!” Philippians 2:6-8 NIV", date: "13.12.24" },
+      { note: "“Keep walking in your faith, it will lead you to your miracle”", date: "10.12.24" },
+      { note: "“One of the most dangerous things you can do is enter a relationship with a girl who belongs to God ~ you can’t afford to cross her Father”", date: "03.12.24" },
+      { note: "NOVEMBER ~ Weak faith in a strong rope, the Matthew 6:33 cycle, faith as the permission to dream, the identity gap, redirect the glory heavenwards always, courtship 101, obedience over strength, a God invested in development over comfort, the 3 evils of intoxication, godliness implies that you are supposed to be different", date: "28.11.24" },
+      { note: "“If you want to change the world, go home and love your family”<<<", date: "27.11.24" },
+      { note: "“The ordeal vs the ideal”", date: "25.11.24" },
+      { note: "Beware of getting accustomed, assuming or entitled to God’s grace", date: "20.11.24" },
+      { note: "“Entangled without commitment becomes stuck without commitment”", date: "18.11.24" },
+      { note: "“God is interested in your development, not your comfort”<<", date: "17.11.24" },
+      { note: "“Anything that you make out of thin air that someone else likes is art”", date: "16.11.24" },
+      { note: "Is the relationship getting in the way of your relationship with God?", date: "15.11.24" },
+      { note: "There’s some pain you can’t save her from", date: "13.11.24" },
+      { note: "Faith = the permission to dream (“No eye has seen, no ear has heard, and no mind has imagined what God has prepared for those who love him.” -1 Corinthians 2:9 NLT)", date: "12.11.24" },
+      { note: "“The bad things turn for good, the good things cannot be lost, the best is yet to come” - favor!", date: "11.11.24" },
+      { note: "The making of a Priest is a process that demands sacrifice. A denial of self even towards those who’ll be the eventual beneficiaries of it.", date: "06.11.24" },
+      { note: "“A just judge AND loving father simultaneously”", date: "05.11.24" },
+      { note: "OCTOBER~ Hold your plans loosely. What would you pursue if you knew that it can’t fail? The higher want will always win. Integrity in everything, all the time. Shame vs guilt. The love has to be stronger than…Joy power over will power.", date: "23.10.24" },
+      { note: "“Are you hungry or do you just want something to eat?”", date: "20.10.24" },
+      { note: "“Chaos regisitering as excitement”", date: "15.10.24" },
+      { note: "Shame vs guilt", date: "11.10.24" },
+      { note: "History is most useful as a servant of the present", date: "08.10.24" },
+      { note: "“All of the activities we do is based on who we see ourselves as being”", date: "07.10.24" },
+      { note: "“Relocate your glory. Refuse for the quality/performance of your work to be the measure of your worth” ~ this is incredibly hard work, especially for men", date: "04.10.24" },
+      { note: "SEPTEMBER ~ The Devil can only work with your existing flaws. The Trinity clarified more. Redefining the goodness of God's will. Men of inferior ability but greater grace. Understanding anointing. Sons vs slaves. Covenant vs consumer marriage. The creation imperative. Even there, even now. The relationship is the reward.", date: "28.09.24" },
+      { note: "“A seemingly thriving, but secretly unsatisfied life”", date: "27.09.24" },
+      { note: "“Grace - What God gives us that we don't deserve. Mercy - What God doesn't give us that we deserve”", date: "24.09.24" },
+      { note: "There’s upside/downside for working with a significantly older biz partner. The downside is you lose out on a normal youthful experience.**", date: "17.09.24" },
+      { note: "“Moving toward a decentered self with God in the middle, or toward a centered self with you in the middle”**", date: "08.09.24" },
+      { note: "“The church should stop cursing the darkness and start lighting some candles”", date: "07.09.24" },
+      { note: "“He ordains the outcome as per his will, so the glory may be his as well”. If things go as you planned them, you highly likely claim the glory", date: "04.09.24" },
+      { note: "“Despising men of inferior ability but greater grace”", date: "03.09.24" },
+      { note: "Beware of supposed “outward mercies/freedom from outward miseries enjoyed by men walking in sin”", date: "02.09.24" },
+      { note: "“God the Creator/Abba (Father), God the Savior (Son), God the Helper (Spirit)”", date: "28.08.24" },
+      { note: "“Jehovah… Rapha (healer), Nisi (defender/deliverer), shalom (our peace), raah (shepherd/guide), Jireh (provider), Shamah (the present one). ~ El Shaddai (God who is sufficient), Adonai (Master/the one who rules/Lord), Abba (source/sustainer/father), Elohim (creator/the supreme one)", date: "26.08.24" },
+      { note: "He exposes your sin just by his Holy presence.", date: "25.08.24" },
+      { note: "“The expulsive power of our affections/loves/worship”^^", date: "22.08.24" },
+      { note: "“Renewal = sanctification that allows you to spontaneously respond in a Godly way in all circumstances”. ~ When godliness becomes you default setting^^", date: "20.08.24" },
+      { note: "“To say God don’t let anything bad happen to me, is to say God don’t love me. Love is something more stern and splendid than mere kindness”^^", date: "18.08.24" },
+      { note: "The limits of knowledge ~ it cannot alleviate unavoidable suffering, offers an insufficient framework for meaning & identity and no universal basis for right/wrong^^", date: "15.08.24" },
+      { note: "“The best moments usually occur when a person’s body or mind is stretched to its limits in a voluntary effort to accomplish something worthwhile”^^", date: "13.08.24" },
+      { note: "“If you’re saved, spirit-filled, sanctified, in submission, suffering for good and thankful always; then do whatever you want” ~ in this state you can trust your heart’s desires. “Once these signs are fulfilled, do whatever your hand finds to do, for God is with you.”-1 Samuel 10:7 NIV^^", date: "12.08.24" },
+      { note: "“Become the fruit of the seed planted in you”", date: "09.08.24" },
+      { note: "“To be the Peter who truly perceives Jesus, and leaves the familiarity of the boat and answers the call of Jesus. He had little faith, but he set forth with it anyway.”", date: "06.08.24" },
+      { note: "“There are certain subjects that you feel passionate about and others that you couldn’t care less about. God had a purpose in giving you your inborn interests. Your emotional heartbeat reveals a very important key to understanding his intentions for your life. Don’t ignore your natural interests. People rarely excel at tasks they don’t enjoy doing. High achievers enjoy what they do.”^^", date: "05.08.24" },
+      { note: "“God’s kindness, forbearance and patience is intended to lead you to repentance and not to be used as a contemptuous window/loophole to keep sinning. Romans 2:4 NIV", date: "04.08.24" },
+      { note: "JULY ~ Avoid the ungodly pull to do things alone. Understanding attraction beyond sex. Love’s not earned; I love you, because I love you, because I love you. Stay close to what/where/who magnifies your spirit. Saved in an instant, sanctified over a lifetime. Because you can't see it, doesn't mean He's not working. Expand your language to include love. The endurance to be lonely. God's favor deciphered. A rainbow trying to be black & white. Temptations vs trials. Gifted to serve. The Bible prepares us for what will be on the test. You have to be near to hear. In serving you will discover your gifts. Claim an existence beyond mere subsistence. True worship comes from personally experiencing God. Access granted! Come into your power.", date: "30.07.24" },
+      { note: "Come into your power. Not because of your gifts, resources or experience. But because the Spirit of God is active in you and access has been granted!", date: "29.07.24" },
+      { note: "“God is not any one thing, He is what you need Him to show up as in this season”", date: "28.07.24" },
+      { note: "“To happily make the decision, with a full heart to join your lives, to fulfill your dreams, to embrace adventures, to create memories together.”", date: "26.07.24" },
+      { note: "“Until the lions have their own historians, the history of the hunt will always glorify the hunter”", date: "23.07.24" },
+      { note: "“You want the authority of a king, with the accountability of a child”", date: "21.07.24" },
+      { note: "“Find opportunities to serve and you will discover your gifts”", date: "19.07.24" },
+      { note: "“The Bible prepares us for what will be on the test. And best believe, the test is coming”", date: "16.07.24" },
+      { note: "“reclaim the past, contest the present and invent the best possible future”", date: "10.07.24" },
+      { note: "I am what I am because of who we all are vs I am what I am despite of who we all are", date: "08.07.24" },
+      { note: "“no one achieves greatness alone, and when you’re gone your art will immortalise you”", date: "06.07.24" },
+      { note: "The endurance to be lonely", date: "05.07.24" },
+      { note: "“If submission depends on leadership, then leadership depends on submission”", date: "03.07.24" },
+      { note: "“Everything that makes us envious is a confused but important signal of our true potential, which we disown at our peril. We should learn to study our envy forensically, for bitterness is envy that doesn’t understand itself”", date: "01.07.24" },
+      { note: "JUNE ~ yes to God's love. your pursuits tell what you worship. to love without worshipping. show all of you. The work beneath the work. Your existence justified. dials vs switches. to be truly seen. thirst presumes the existence of water. When we lose the fear; they lose their power. loneliest when we don't share anything that matters. Extend yourself; Expect the best. beyond knowledge into spirit. to work like God. disentangling from a profit-centred life. today I have enough, I am thankful. be the happening!. a love-based relationship with God. separated by our inability to receive grace. What you will, when you will, how you will. I am accepted therefore I perform. Changing your worship, change your life. identity refined.", date: "30.06.24" },
+      { note: "Men’s happy ending = money & power (wife, kids, family as by-products of getting the latter). Women’s happy ending = husband, kids & family👀", date: "28.06.24" },
+      { note: "“Evil triumphs when good men do nothing”", date: "24.06.24" },
+      { note: "“In the end we will remember not the words of our enemies, but the silence of our friends.\"👀", date: "23.06.24" },
+      { note: "“People want to love you, all of you. Let them”. “What if they reject you? At least they’ll reject the real you, and somehow that is better”👀👀", date: "22.06.24" },
+      { note: "“If you can’t take a break/walk away from it, you are a slave to it”", date: "21.06.24" },
+      { note: "“Gotta fly, and if I fall, then that’s the way it’s gotta be”", date: "20.06.24" },
+      { note: "“the flailing isn’t fun, but it matters.”👀", date: "18.06.24" },
+      { note: "“an interesting and interested person”👀", date: "11.06.24" },
+      { note: "“Marriage is be easier to put off now that it serves less of a structural function than it once did (women are presumed to be self-supporting; and men can deal with their own laundry)”", date: "10.06.24" },
+      { note: "MAY ~ Lead with your life. The second look. The stamp of the image of God. Protect your spirit like a child’s. Stability, not security. Hard times strong men, good times weak men. A seed discovers its a tree. Transform self, transform others. According to your faith let it be done to you. Beyond sustenance, lies a full life. Reclaiming the intimacy of friendship. Spirit vs soul, body. Sinning less and less. Your knowledge is your ignorance. To seek more but be satisfied now. Faith to work with only what has been revealed. A necessary bit of rebellion. A big world needs a big compass.", date: "31.05.24" },
+      { note: "The world of our forefathers was simpler because a man had to make much fewer choices. It was easier to define oneself, easier to find your place. There were also much fewer forces jostling over your allegiance - no myriad corporations, political parties, ideologies, religions. Their universe was smaller, physically and metaphysically (single tribe, clan, defined gods). A bigger world demands a stronger compass, you’re much more likely to get lost in a bigger world👀", date: "30.05.24" },
+      { note: "A bit of rebellion is necessary in a man. It’s the indicator that you are making a claim on the uniqueness of your existence. That you’re refusing to just fit into the tapestry of society and time, you’re not just unremarkably compliant. ~ Society gets you when you inevitably need something from it or through its (unknowing) agents with authority or intimate access to you. The trick is to get into a position of negotiation with society, where you need something from them but they need your thing too.👀", date: "29.05.24" },
+      { note: "“Every crisis you have is a crisis of faith. It’s a challenge of your belief in God to come through for you in all things, to trust His precedence, His word, His promises” ~ and this is what the Devil is most interested in, if you doubt your faith in the slightest, he’s got you.👀", date: "26.05.24" },
+      { note: "“I am believing God for xyz…, but I am satisfied with what I have”", date: "24.05.24" },
+      { note: "Men in lasting marriages today are stronger leaders than their forefathers. The latter led women who were docile and with few options. It doesn’t take much to get the acquiescence of such a person. But to lead someone who is educated, has income and has space to voice their opinion is a much harder job. It’s harder to lead free men than slaves.👀", date: "20.05.24" },
+      { note: "“I don't have anything to prove but a whole lot more to give”", date: "19.05.24" },
+      { note: "This is living. If you pay enough attention you can notice life in the every day, not only in extremes.", date: "18.05.24" },
+      { note: "Interesting; You’ve started to notice other seasons that define the year beyond work. ~ weather, social calendar", date: "17.05.24" },
+      { note: "“forgiving isn’t meant for the other, it’s meant for me”", date: "16.05.24" },
+      { note: "\"The most potent weapon in the hands of the oppressor is the mind of the oppressed.\"👀", date: "15.05.24" },
+      { note: "God is the only Creator who allows his creation the option to self-harm and even end its own existence.👀", date: "14.05.24" },
+      { note: "“Amen is actually an Aramaic word that was kept intact in the Greek, Latin, and many other languages. It literally means, \"faithful,\" or \"believe,\" and is most simply translated as \"truly.\" This is why the term is often used at the end of a prayer or other statement. Putting it at the end of a phrase suggests—or hopes—that what was said is true or sure. Putting the word amen at the beginning of a statement is a way of claiming that this is the speaker's own personal declaration. Jesus is claiming that His statement is absolutely true, and that He has absolute, direct, personal knowledge of its truth.”", date: "13.05.24" },
+      { note: "Just because women became more empowered didn’t mean that men stop giving leadership👀", date: "10.05.24" },
+      { note: "Are you completely content with how you are? Is there anything in your present nature that you feel is an obstacle to achieving what matters to you in life?", date: "08.05.24" },
+      { note: "“Masculinity is a standard not a destination. It’s a self-defined set of positive values you wake up every day and try to reach for”👀", date: "07.05.24" },
+      { note: "“regrets of inaction are more common than regrets of action. In other words, we tend to regret the things we didn’t do rather than the things we did”", date: "06.05.24" },
+      { note: "VN = a time for rest, a time for faith", date: "05.05.24" },
+      { note: "Before the girl = The clarity of identity & purpose to lead them, the character & spiritual maturity to guide them, the knowledge & wisdom to cultivate them, the economic stability to provide for them.👀", date: "04.05.24" },
+      { note: "“Beauty will attract, but you must aim to know the person beyond the beauty. Beautiful people suffer the prejudice of only being seen skin deep.”", date: "03.05.24" },
+      { note: "“Men largely want their mothers for wives. Women want a better version of their fathers for husbands: sensitive, available, liberal and preferably financially well off.”", date: "02.05.24" },
+      { note: "APRIL ~ Unmasking the fundamental lie. Dating wealth. Friendship vs marriage. A man’s unique role today. Heavy is the work of this season. The seed of potential. Protected in the armor of God. Revisiting old wisdom. The Creator’s love. Trust after betrayal. Set apart. Ambassadorship. Prosperity for purpose. Women’s selfish era. Unmasking GW.", date: "30.04.24" },
+      { note: "You can be saved by your naïveté", date: "29.04.24" },
+      { note: "“Women today are in their selfish era.” ~ they’ve just discovered this power, and the world is being reorganized for their benefit and they are justifiably excited. But in that excitement, they have broken some important things and I just don’t know if it’s the right time yet to have this conversation with them. The fireworks are still too loud", date: "22.04.24" },
+      { note: "Christ as the Messiah was a very very difficult narrative to sell for the apostles. God’s salvation and Israel’s expected salvation looked very different. Faith was the bridge between the two visions", date: "21.04.24" },
+      { note: "Seek wholeness then ask God of what he wills for you next. Don’t presume marriage is for you", date: "20.04.24" },
+      { note: "Parents are only earthly custodians, but the children belong to God.", date: "19.04.24" },
+      { note: "“Its not good for man to be alone = its not favorable for his growth and development. You can develop skills and talents when you are alone but you can only develop character when you are with someone, because character requires accountability”", date: "18.04.24" },
+      { note: "“Am a movie star, you’re a TV star. They have to pay to see me; they make plans, get a baby sitter and stand in line to watch me on a 25 foot screen. But they invite you their house", date: "17.04.24" },
+      { note: "Your mind is your gift; use it godly, wisely and guard it jealously. Inputs must be tied to outputs", date: "15.04.24" },
+      { note: "“Understand yourself, then you'll know the partners you need", date: "13.04.24" },
+      { note: "Healing does not necessarily have to be a hard, grueling experience, if you are allowed to face the source of your pain and choose to forgive and let go, and refuse the hardening. The only way is through it.", date: "12.04.24" },
+      { note: "A tree does not eat of its own fruit: relationship and fellowship is the bridge that allows others to enjoy your fruit and you theirs. Receiving from them is more pleasant than eating of your own", date: "11.04.24" },
+      { note: "“The single parent who leaves tends to move on because they simply have time and are child-free on most days”", date: "10.04.24" },
+      { note: "Capitalism thrives on dissatisfaction and uses Media to keep masses in a profitable state of anxiety, envy & distraction; then sells consumerism as the answer to all forms of dissatisfaction. The greatest threat to capitalism is people realizing they have enough.", date: "08.04.24" },
+      { note: "Men are not built to be a girlfriend, you don’t have the emotional bandwidth for it by design. ~ all husbands should be heavily invested in ensuring their wives have female friends ~ beware of the isolated girl (one with strained or absent female friends), it will put an unnecessarily heavy social & emotional burden on you", date: "07.04.24" },
+      { note: "What are men uniquely good for today? - the sperm bearer, the proposer*, (from gender roles to orderly) sharing of practical, emotional & spiritual responsibilities of building a family & running a household (vision & strategy, child care, household management, financial provision, wealth management) ~ while the protector role is greatly diminished today, it’s still important that men be ready if necessary", date: "06.04.24" },
+      { note: "Appreciate the true depth of your ongoing transformation- to see with new eyes, to speak a new tongue, to sensitize your ear, to cleanse your heart, to rethink your purpose, to rediscover your identity, to overhaul your values = essentially molding a new godly man ~ stop ingesting the poison, clean out the rot, establish a new life to ensure you stay clean", date: "05.04.24" },
+      { note: "“God never sees what you are or what you have done, He focuses on what you are carrying, what you can be”", date: "04.04.24" },
+      { note: "True failure = succeeding at the wrong thing", date: "03.04.24" },
+      { note: "“The prophet is a mailman bringing mail to you because you’ve not been listening”", date: "02.04.24" },
+      { note: "Fast and pray before each pursuit ~ Follow Jesus example in the wilderness", date: "01.04.24" },
+      { note: "MARCH ~ discovering power, unlocking authority, faith, surrendering increasingly, wisdom over knowledge, more marriage wisdom, breaking knowledge hoarding, called to competence, men, fasting discovered", date: "30.03.24" },
+      { note: "We want access to the privileges of marriage (sex, care, companion, family, commitment, exclusivity) without the responsibility", date: "28.03.24" },
+      { note: "“The size of the pipe does not influence the size of the tank. God’s tank is always full, we get to decide what pipe we want to connect to his tank”", date: "27.03.24" },
+      { note: "“Salvation was given to all through the death of Jesus. All received the gift, but not everyone has chosen to unwrap it and utilize it”", date: "25.03.24" },
+      { note: "“The oppressed have a unique knowledge about the oppressor. They are very well placed to discuss the shape, gaps and motives of their oppressor”", date: "24.03.24" },
+      { note: "Beyond money = Character, Purpose,", date: "23.03.24" },
+      { note: "To Minister to someone, start by meeting them where they are", date: "21.03.24" },
+      { note: "“The two most important days in a man’s life; the day you were born and the day you discover why you were born”", date: "19.03.24" },
+      { note: "A partner (practically reliable, aligned values), companion (enjoyable company, aligned spirits) and lover (sex & romance). A good love needs at least two, a great love gives you all three!", date: "17.03.24" },
+      { note: "The art and the artist; can’t separate them", date: "16.03.24" },
+      { note: "It’s a good time to ask the Odipo purpose question. For what larger purpose do we exist? A purpose that would outlast our tenure. Our personal trajectories are coalescing with the organization’s", date: "15.03.24" },
+      { note: "“We must fix our eyes on God to watch, listen, and discern His leading. Let us recognize His promptings, pay attention to His guidance, and listen for His “voice.” To surrender our lives to Him. We can cling to our plans, dismiss His warnings, and fight for self-sufficiency, or, we can give ourselves to Him—fully.”", date: "14.03.24" },
+      { note: "“Over time, you want your [Time on Step 2] / [Time on Step 1] ratio to go up a little bit each year, and you want to get better and better at inducing Step 3 Whoa moments and reminding yourself of the Step 4 purple blob”", date: "13.03.24" },
+      { note: "It’s vital to not lose the impressor (man) vs impressed (woman) dynamic and energy. Remember what you did to get them is what you must continue to do to keep them.", date: "12.03.24" },
+      { note: "“When under authority, God introduces and promotes you” ~ Jesus’ announcement after baptism", date: "09.03.24" },
+      { note: "“This is living” - life is deeply experienced in the extremes of pleasure, achievement and pain", date: "06.03.24" },
+      { note: "“Your children have to test the faith you gave them before they believe and make it theirs”", date: "05.03.24" },
+      { note: "Thinking vs overthinking ~ My gift is my blocker too", date: "04.03.24" },
+      { note: "The Genetic Engineer, The Conceiver, *the Midwife* (how early can you notice the pregnancy?), the Parent (of an infant, pre-teen, teen, adult)", date: "03.03.24" },
+      { note: "Build your present with an eye on the future but have the faith to hope and move as well even when the present maths is not adding up to that future vision. Prepare the spiritual, God will provide the material", date: "01.03.24" },
+      { note: "FEBRUARY ~ choosing genuine Singleness for the first time, a creator not servant, putting shape to sin, a Kingdom invite to total surrender, a dare to be illogical", date: "28.02.24" },
+      { note: "Levels, total renewal~total surrender, pre-requisites, your gifts can be contorted against you (overthinking)", date: "27.02.24" },
+      { note: "Marriage = unique personal affection + practical help^^", date: "26.02.24" },
+      { note: "“If we could imagine the love of one who loves men purely for their own sake, and not because of any need or desire of his own, purely desires their good, and yet loves them wholly, not for what at this moment they are, but for what he knows he can make of them because he made them, then we should have in our minds some true image of the love of the Father and Creator of mankind”", date: "25.02.24" },
+      { note: "Don’t tell people they are special, make them feel special ~ attention, effort", date: "24.02.24" },
+      { note: "Your wholeness as a single individual does not negate a desire to be with another to enjoy and do life with (companionship). The two truths can coexist. The difference lies in in the fine line between enthusiasm and desperation. I am enjoying my single present AND i also look forward to my coupled future. Enthusiasm matters; it’s a declaration of a preferred outcome, it’s a prayer, its active openness to people and connections. I am independent but i am also open to depending on another in the right context, whether practically (who doesn’t like things done or made easier for them?) or emotionally. I like to depend on others (where it makes my life better/easier), but i don’t need to.", date: "21.02.24" },
+      { note: "Not a Christian, but a believer - in the Word of God as absolute truth", date: "20.02.24" },
+      { note: "Time for a different level ~ to permanently no longer live off your own labors > but through surrender to a higher Sustainer not own effort", date: "19.02.24" },
+      { note: "“My restlessness can be reckless”", date: "17.02.24" },
+      { note: "Agape Love = a decision to commit to meet the needs of another for life without expectation", date: "15.02.24" },
+      { note: "We serve a radical God, who holds us to a radical standard ~ the path is narrow", date: "13.02.24" },
+      { note: "Beware of the trap of being a highly stationed servant ~ You are only ever allowed to serve God and his people", date: "12.02.24" },
+      { note: "“Don’t speak great things to my face, speak them to my back as well”", date: "11.02.24" },
+      { note: "Life’s main temptations: gold, girls, glory. Life’s main trials: poverty, betrayal, persecution, disease, death", date: "10.02.24" },
+      { note: "“To grow and not grow apart”", date: "08.02.24" },
+      { note: "The awakening to the opposite gender, to desire is not a greenlight to participate, its a call to prepare", date: "07.02.24" },
+      { note: "“Preaching speaks more to the heart, and teaching speaks more to the head. Preachers facilitate an experience. Teachers convey information. The best pastors do both well. Preaching without solid teaching can become emotionalism. Teaching without preaching can become intellectualism.”^^", date: "06.02.24" },
+      { note: "Not dating = not ready for marriage in next 12 months, not whole (God’s working on me/preparing me), in need of deep rest", date: "05.02.24" },
+      { note: "“Relationship with God makes you whole, relationship with humans (before its time) reveals your holes”", date: "04.02.24" },
+      { note: "“God doesn’t play house, He builds families.”", date: "04.02.24" },
+      { note: "Marriage = asking you to follow me; but how can you be followed when you don’t know where you’re headed?", date: "02.02.24" }
+    ];
+
+    function showRandomNote() {
+      const random = notes[Math.floor(Math.random() * notes.length)];
+      document.getElementById("note").textContent = random.note;
+      document.getElementById("date").textContent = random.date;
+    }
+
+    showRandomNote();
+  </script>
+</body>
+</html>
